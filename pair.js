@@ -10,6 +10,7 @@ const {
     makeCacheableSignalKeyStore
 } = require("maher-zubair-baileys");
 
+const app = express();
 let router = express.Router();
 
 function removeFile(FilePath) {
@@ -83,9 +84,14 @@ router.get("/", async (req, res) => {
     return await SIGMA_MD_PAIR_CODE();
 });
 
+app.use('/', router);
+
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
+
+// Set the port to your preferred value
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
