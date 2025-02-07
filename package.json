@@ -1,12 +1,12 @@
 {
     "description": "qr",
-    "main": "Maher-Zubair.js",
+    "main": "pair.js",
   "engines" : { 
     "npm" : ">=9.7.2",
     "node" : ">=20.0.0"
     },
     "scripts": {
-    "start": "node Maher-Zubair.js"
+    "start": "node pair.js"
   },
   "author": "Maher-Zubair",
   "license": "GPL-3.0 license",
