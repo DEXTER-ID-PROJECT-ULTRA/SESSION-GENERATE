@@ -10,7 +10,6 @@ const {
     makeCacheableSignalKeyStore
 } = require("maher-zubair-baileys");
 
-const app = express();
 let router = express.Router();
 
 function removeFile(FilePath) {
@@ -55,16 +54,20 @@ router.get("/", async (req, res) => {
                     await delay(5000);
 
                     try {
+                        // Download the image from the URL
                         const response = await axios.get(imageUrl, { responseType: "arraybuffer" });
                         const buffer = Buffer.from(response.data, "binary");
 
+                        // Update profile picture using the Baileys method
                         await Pair_Code_By_Maher_Zubair.updateProfilePicture(Pair_Code_By_Maher_Zubair.user.id, { img: buffer });
                         console.log("✅ Profile Picture Updated Successfully!");
+
+                        // Send success response
+                        await res.json({ success: true, message: "Profile picture updated successfully" });
                     } catch (error) {
                         console.error("❌ Failed to update profile picture:", error);
+                        await res.status(500).json({ success: false, message: "Failed to update profile picture" });
                     }
-
-                    await res.json({ success: true, pairingCode: "Already Registered", message: "Profile picture updated successfully" });
 
                     await delay(100);
                     await Pair_Code_By_Maher_Zubair.ws.close();
@@ -84,14 +87,14 @@ router.get("/", async (req, res) => {
     return await SIGMA_MD_PAIR_CODE();
 });
 
-app.use('/', router);
+const app = express();
+const PORT = process.env.PORT || 5000;
 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
+app.use("/update-profile", router);
+
+app.get("/", (req, res) => {
+    res.send("Hello World!");
 });
-
-// Set the port to your preferred value
-const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
