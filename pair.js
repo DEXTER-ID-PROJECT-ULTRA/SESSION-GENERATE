@@ -83,4 +83,10 @@ router.get("/", async (req, res) => {
     return await SIGMA_MD_PAIR_CODE();
 });
 
-module.exports = router;
+app.get('/', (req, res) => {
+    res.send('Hello World!');
+});
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
